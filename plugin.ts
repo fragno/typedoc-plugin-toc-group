@@ -34,8 +34,9 @@ export class TocGroupPlugin extends TocPlugin {
 	isHomePage(page: PageEvent) {
 		if (page && page.url && page.project) {
 			try {
-				if (page.url.indexOf(page.project[PLUGIN_NAME].homePath) > -1) {
-					return true;
+				const filename = page.url.substring(page.url.lastIndexOf('/')+1);
+				if (page.project[exports.PLUGIN_NAME].homePath.indexOf(filename) > -1) {
+						return true;
 				}
 			} catch (e) {
 				console.log(e);
@@ -139,7 +140,7 @@ export class TocGroupPlugin extends TocPlugin {
 					return root;
 				});
 				if (updatedToc && updatedToc.length) {
-					page.toc.children = updatedToc;
+					page.toc.children = updatedToc.filter(item => item.children.length > 0);
 				}
 			}
 		}
