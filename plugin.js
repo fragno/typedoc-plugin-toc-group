@@ -41,9 +41,6 @@ var __decorate =
 	 * This plugin will generate a group menu for toc list.
 	 */
 	let TocGroupPlugin = class TocGroupPlugin extends TocPlugin_1.TocPlugin {
-		/**
-		 * This plugin will generate a group menu for toc list.
-		 */
 		constructor() {
 			super(...arguments);
 			this.defaultTags = ['group', 'kind', 'platform'];
@@ -59,7 +56,8 @@ var __decorate =
 		isHomePage(page) {
 			if (page && page.url && page.project) {
 				try {
-					if (page.url.indexOf(page.project[exports.PLUGIN_NAME].homePath) > -1) {
+					const filename = page.url.substring(page.url.lastIndexOf('/') + 1);
+					if (page.project[exports.PLUGIN_NAME].homePath.indexOf(filename) > -1) {
 						return true;
 					}
 				} catch (e) {
@@ -152,7 +150,7 @@ var __decorate =
 						return root;
 					});
 					if (updatedToc && updatedToc.length) {
-						page.toc.children = updatedToc;
+						page.toc.children = updatedToc.filter(item => item.children.length > 0);
 					}
 				}
 			}
